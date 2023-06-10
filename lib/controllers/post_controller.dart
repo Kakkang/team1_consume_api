@@ -48,10 +48,20 @@ class PostController {
     });
   }
 
-  Future<bool> create(Post post) async{
+  Future<bool> create(Post post) async {
     return await PostService().create(post).then((res) {
-      inspect(res);
-      print(res.body);
+      if (res.statusCode == HttpStatus.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  Future<bool> patch(Post post) async {
+    return await PostService()
+        .patch(id: post.id, title: post.title)
+        .then((res) {
       if (res.statusCode == HttpStatus.ok) {
         return true;
       } else {

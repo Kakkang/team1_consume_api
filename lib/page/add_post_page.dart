@@ -4,7 +4,9 @@ import 'package:team1_consume_api/controllers/post_controller.dart';
 import 'package:team1_consume_api/models/post.dart';
 
 class AddPostPage extends StatefulWidget {
-  const AddPostPage({super.key});
+  const AddPostPage({super.key, this.post});
+
+  final Post? post;
 
   @override
   State<AddPostPage> createState() => _AddPostPageState();
@@ -19,6 +21,12 @@ class _AddPostPageState extends State<AddPostPage> {
   void initState() {
     titleController = TextEditingController();
     bodyController = TextEditingController();
+
+    if (widget.post != null) {
+      titleController.text = widget.post!.title;
+      bodyController.text = widget.post!.body;
+    }
+
     super.initState();
   }
 
@@ -27,7 +35,7 @@ class _AddPostPageState extends State<AddPostPage> {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("TAMBAH berita"),
+        title: Text(widget.post != null ? "Edit Berita" : "Tambah Berita"),
       ),
       body: Column(
         children: [
@@ -84,34 +92,55 @@ class _AddPostPageState extends State<AddPostPage> {
               onPressed: () {
                 if (_formkey.currentState!.validate()) {
                   Post post = Post(
-                    userId: 1,
-                    id: 1,
+                    userId: widget.post != null ? widget.post!.userId : 1,
+                    id: widget.post != null ? widget.post!.id : 1,
                     title: titleController.text,
                     body: bodyController.text,
                   );
-                  postController.create(post).then((res) {
-                    if (res) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Post Added"),
-                          behavior: SnackBarBehavior.floating,
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Failde to add Post"),
-                          behavior: SnackBarBehavior.floating,
-                        ),
-                      );
-                    }
-                  });
+
+                  if (widget.post != null) {
+                    postController.patch(post).then((res) {
+                      if (res) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Post Edited"),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Failde to Edit Post"),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    });
+                  } else {
+                    postController.create(post).then((res) {
+                      if (res) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Post Added"),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Failde to add Post"),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    });
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
               ),
-              child: const Text("Tambah"),
+              child: Text(widget.post != null ? "Edit" : "Tambah"),
             ),
           ),
         ],

@@ -9,6 +9,7 @@ class AppRoutes {
   static const home = 'home';
   static const post = 'post';
   static const addpost = 'add-post';
+  static const editpost = 'edit-post';
 
   static Page _homePageBuilder(BuildContext context, GoRouterState state) {
     return const MaterialPage(child: HomePage());
@@ -25,9 +26,14 @@ class AppRoutes {
   static Page _addpostPageBuilder(BuildContext context, GoRouterState state) {
     return const MaterialPage(
       child: AddPostPage(),
-      );
+    );
   }
 
+  static Page _editpostPageBuilder(BuildContext context, GoRouterState state) {
+    return MaterialPage(
+      child: AddPostPage(post: state.extra as Post),
+    );
+  }
 
   static GoRouter goRouter = GoRouter(
     initialLocation: "/home",
@@ -46,6 +52,11 @@ class AppRoutes {
               name: addpost,
               path: "add-post",
               pageBuilder: _addpostPageBuilder,
+            ),
+            GoRoute(
+              name: editpost,
+              path: "edit-post",
+              pageBuilder: _editpostPageBuilder,
             ),
           ]),
     ],

@@ -64,6 +64,10 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Card(
                           child: ListTile(
+                            onLongPress: () {
+                              AppRoutes.goRouter.pushNamed(AppRoutes.editpost,
+                                  extra: snapshot.data![index]);
+                            },
                             onTap: () {
                               GoRouter.of(context).pushNamed(
                                 AppRoutes.post,
