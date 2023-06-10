@@ -47,4 +47,16 @@ class PostController {
       }
     });
   }
+
+  Future<bool> create(Post post) async{
+    return await PostService().create(post).then((res) {
+      inspect(res);
+      print(res.body);
+      if (res.statusCode == HttpStatus.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
 }

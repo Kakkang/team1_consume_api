@@ -44,6 +44,12 @@ class _PostPageState extends State<PostPage> {
                 ),
               ),
               SizedBox(
+                height: size.height * 0.02,
+              ),
+              const Text(
+                "Komentar"
+              ),
+              SizedBox(
                 height: size.height * 0.01,
               ),
               Expanded(
@@ -62,7 +68,7 @@ class _PostPageState extends State<PostPage> {
                           },
                           separatorBuilder: (context, index) {
                             return SizedBox(
-                              height: size.height * 0.03,
+                              height: size.height * 0.0005,
                             );
                           },
                           itemCount: comments.length);
@@ -71,9 +77,16 @@ class _PostPageState extends State<PostPage> {
                     }
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
+                    return AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: SizedBox(
+                        width: size.width * 0.02,
+                        height: size.width * 0.02,
+                        child: const CircularProgressIndicator(),
+                      )
+                      );
                   } else {
-                    return const Text("Err");
+                    return const Text("err");
                   }
                 },
               ))

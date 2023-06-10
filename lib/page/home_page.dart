@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                     },
                     separatorBuilder: (context, index) {
                       return SizedBox(
-                        height: size.height * 0.01,
+                        height: size.height * 0.0005,
                       );
                     },
                     itemCount: snapshot.data!.length,
@@ -100,6 +100,12 @@ class _HomePageState extends State<HomePage> {
             }
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          AppRoutes.goRouter.pushNamed(AppRoutes.addpost);
+        },
+        label: Text("Tambah Berita"),
       ),
     );
   }
